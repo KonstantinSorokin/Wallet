@@ -10,8 +10,8 @@ Wallet microservice demo
   - `./gradlew clean build` (Linux OS).
 * When the building process finishes, resulting jar will be placed to folder `./buidl/libs`.
 * Recommended way of starting the jar file is to open the console, navigate to the folder containing the jar file and
-  run `java -jar Wallet-0.0.1-SNAPSHOT.jar`.  The application can then be stopped by pressing Ctrl-C in the console
-  window.
+  run `java -jar Wallet-0.0.1-SNAPSHOT.jar`.  Application logs and full stack traces of errors will appear in the
+  console window.  The application can then be stopped by pressing Ctrl-C in the console window.
 
 
 ###  API description
@@ -23,6 +23,8 @@ The API contains 4 methods:
   - type: GET
   - parameters:
     - `playerName` String (mandatory) - The name of the player (should not be empty)
+  - returns:
+    - number, the current balance of the player
   - example: [http://localhost:8080/balance?playerName=John](http://localhost:8080/balance?playerName=John)
 
 * **credit** - Credit per player
@@ -31,6 +33,9 @@ The API contains 4 methods:
     - `playerName` String (mandatory) - The name of the player (should not be empty)
     - `amount` long (mandatory) - Amount to credit (should be positive)
     - `transactionId` long (mandatory) - Unique identifier of the transaction
+  - returns:
+    - {'result': 'Ok'} with status code 200 if the operation completed sucessfully, or
+    - {'Status': ..., 'errorMessage': '...'} with a status code corresponding to the issue and with the approppriate error message 
   - example: [http://localhost:8080/credit?playerName=John&amount=10&transactionId=1](http://localhost:8080/credit?playerName=John&amount=10&transactionId=1)
 
 * **debit** - Debit /Withdrawal per player
@@ -39,12 +44,17 @@ The API contains 4 methods:
     - `playerName` String (mandatory) - The name of the player (should not be empty)
     - `amount` long (mandatory) - Amount to debit (should be positive)
     - `transactionId` long (mandatory) - Unique identifier of the transaction
+  - returns:
+    - {'result': 'Ok'} with status code 200 if the operation completed sucessfully, or
+    - {'Status': ..., 'errorMessage': '...'} with a status code corresponding to the issue and with the approppriate error message 
   - example: [http://localhost:8080/debit?playerName=John&amount=5&transactionId=2](http://localhost:8080/debit?playerName=John&amount=5&transactionId=2)
 
 * **history** - Transaction history per player
   - type: GET
   - parameters:
     - `playerName` String (mandatory) - The name of the player (should not be empty)
+  - returns:
+    - the list of found transactions in json format
   - example: [http://localhost:8080/history?playerName=John](http://localhost:8080/history?playerName=John)
 
 
